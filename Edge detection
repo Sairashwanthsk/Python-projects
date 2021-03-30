@@ -1,0 +1,13 @@
+import cv2
+
+def filter_image(file_name, thresh_min, thresh_max):
+    image = cv2.imread(file_name)
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    (thresh, im_bw) = cv2.threshold(gray, thresh_min, thresh_max, 0)
+
+def edge_detection(file_name, thresh_min, thresh_max):
+    (thresh, im_bw) = filter_image(file_name, thresh_min, thresh_max)
+    contours, hierarchy = cv2.findContours(im_bw, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    
+if __name__ == '__main__':
+  edge_detection('test.jpg', 128, 255)
