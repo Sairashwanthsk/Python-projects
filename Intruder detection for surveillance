@@ -1,14 +1,15 @@
 import cv2
 from twilio.rest import Client
+from test.test_winsound import winsound
 
 #Instantiating twilio configuration
-account_sid = "ACCOUNT_SID"
-auth_token = "AUTH_TOKEN"
+account_sid = 'account_sid'
+auth_token = 'Auth_token'
 client = Client(account_sid, auth_token)
 
 #Instantiating surveillance camera
 cam = cv2.VideoCapture(0,cv2.CAP_DSHOW)
-
+count = 0
 #Setting up camera for object detection
 while cam.isOpened():
     ret, frame1 = cam.read()
@@ -24,8 +25,12 @@ while cam.isOpened():
             continue
         x, y, w, h = cv2.boundingRect(c)
         cv2.rectangle(frame1, (x,y), (x+w, y+h), (0,255,0), 2)
-    if contours == True:
-        message = client.messages.create(body='Alert! Someone is intruding in your place', from_="FROM_NUM", to="VERIFIED_NUMBE")
+        winsound.PlaySound('siren.mp3', winsound.SND_ASYNC)
+        count+=1
+    if count == 1:
+        for i in range(2):
+            message = client.messages.create(body='Alert! Someone is intruding in your place', from_='from_number', to='to_number')
+            print(message.sid)
     if cv2.waitKey(10) == ord('q'):
         break
     cv2.imshow('cam1', frame1)
