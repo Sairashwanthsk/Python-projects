@@ -1,0 +1,15 @@
+Install pre-requisites:
+
+1. $ pip install pdfkit
+2. for Windows: https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_msvc2015-win64.exe
+
+Now lets we start to Code:
+import pdfkit
+1. From saved html page:
+    pdfkit.from_file('test.html', 'test.pdf')
+
+2. From URl:
+    pdfkit.from_url('url link','test.pdf')
+   
+3. Text to pdf:
+    pdfkit.from_string('Hello World','test.pdf')
