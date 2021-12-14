@@ -2,9 +2,9 @@ import pydicom as dicom
 import os
 import cv2
 # Specify the .dcm folder path
-folder_path = "03-03-2004-08186/79262"
+folder_path = input("\nPlease provide the dcm images directory: \n")
 # Specify the output jpg/png folder path
-jpg_folder_path = "03-03-2004-08186/JPG_test"
+jpg_folder_path = input("\nPlease provide the directory path to store the jpeg images:\n")
 images_path = os.listdir(folder_path)
 for n, image in enumerate(images_path):
     ds = dicom.dcmread(os.path.join(folder_path, image))
