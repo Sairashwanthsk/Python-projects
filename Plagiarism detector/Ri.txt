@@ -1,0 +1,110 @@
+SEGMENTATION OF LUNG LESION FROM CT IMAGE u
+R.Indumathi 1*, Dr.R.Vasuki 2
+1* Research Scholar, Dept. of Biomedical Engineering, Bharath Institute of Higher Education and Research, Chennai. 
+2 Professor, Dept. of Biomedical Engineering, Bharath Institute of Higher Education and Research, Chennai.
+1* Email: indhu.maheshradha@gmail.com ,   2 Email rkaran02@gmail.com 
+ABSTRACT
+Lung along with Lesion can be more accurately segmented from lung parenchyma, which enables the doctors and radiologists to study the image more effectively. Also, this method is used to detect the abnormalities, helps to provide better diagnosis to the patient and reduces the death due to cancer. The aim of this paper is to segment the lung lesion from lung parenchyma for accurate analysis of CT lung images which is vital for diagnosis and treatment of various pulmonary and pneumonic diseases. The proposed method focuses on automatic processing of CT lung parenchyma images to segment and identifies the lesions. In this paper a new automatic method has been developed to segment the lung lesion. It is based on Threshold processing, where thresholding is done by Absolute Threshold Value Binarization. In addition to that Lung Parenchyma Repair Algorithm, which repairs the lung parenchyma boundary more accurately. At the end to separate the lesions from lung we used area property of the connected components.
+Keywords: Lung, Lesion, Binarization, parenchyma
+INTRODUCTION
+The lung lesions are called as pulmonary nodule or spot on the lung. This is a discrete, well-defined, rounded opacity having the size of approximately 1.5 inches in diameter or less than that. The lesions can be cancerous or non-cancerous. The lung lesions are considered as a common and it is found in one in 500 chest X-rays and one in 100 CT scans of the chest. The lung nodules can be divided into hamartomas, tuberculosis, inflammation and lung cancer. Usually the lung nodule can be diagnosed with the help of CT scan. From the statistical survey it is observed that, most of lung cancers were present as solitary pulmonary nodule.so it is very important that detection and analysis of lung lesions. But detecting and diagnosing lung lesion is a crucial role for radiologist and other health care professional. In order to achieve the accurate segmentation, the automatic algorithm is necessary. In this proposed method we developed a repairing algorithm to detect and segmenting the lesions from lung CT image. With this help of proposed method, Lung along with Lesion can be more accurately segmented from lung parenchyma, which enables the doctors and radiologists to study the image more effectively. Also, this method is used to detect the abnormalities, helps to provide better diagnosis to the patient and reduce the death due to cancer.
+PROPOSED METHOD
+The sequence of steps has to be followed for the segmentation of lung from lung parenchyma. They are as follows,
+?	Absolute Threshold Value Binarization 
+?	Detecting the boundary (Boundary Detect Algorithm)
+?	Removing the outer unwanted region 
+?	Lung parenchyma extraction 
+?	Repairing Lung region (Lung Parenchyma Repair Algorithm)
+?	Lesion Segmentation
+Block Diagram:
+
+
+
+
+
+
+
+
+
+Fig: 1 Block Diagram
+Absolute Threshold Value Binarization Algorithm
+Thresholding is an important step in the image segmentation.  Thresholding converts any image into its binary format. Segmenting any image needs to be thresholded first. Therefore, in this paper, we propose a new threshold method, known as absolute threshold value binarization. The Absolute threshold value binarization method produces two absolute binary threshold images. That is, it generates two binary images, image whose threshold value is greater than initial threshold and another whose threshold value is less than the initial threshold. Based on the need of the further processing, the required threshold image has to be selected for the further processing. 
+Detecting the Boundary
+Boundary has to detect more accurately for the further processing of the image. Here boundary detect algorithm is used to detect the correct boundary of the lung CT image. It is easier to segment the lung from the lung parenchyma region, after detecting the exact working region.  The algorithm detects and traces the boundary of the region of interest, through which it is very easier for the further processing of the image.
+Removing the Outer Unwanted Region
+Once when the boundary has been detected and traced in the thresholded image, the extra unwanted region in the image has to be removed for the further processing of image. The image surrounding the boundary has to be extracted separately for the lung segmentation from the parenchyma. This step provides us the image showing the boundary traced after removing the extra unwanted outer region. This can be obtained by combined the boundary traced image with the original image.
+Lung Parenchyma Extraction
+Next to continue the morphological operation; the image has to be reconstructed into a new form. The upper portion of the image which is unwanted has to be made into white and the lower portion of the image which is unwanted has to be removed. Removing the lower portion can be done by a cut function initialized at the beginning of the code. The cut can be of any value, which depends on the size of the image and the corresponding position of the extra outer portion in the image.
+Repairing Lung Region
+Lung has to repair properly; hence horizontal scanning is used to repair the lung region. The image is scanned both left and the right side. The image is scanned until there is any change from 1 to 0. When there is a change the portion of the scan becomes 0, else the portion remains the same. Thus, horizontal scanning is used to produce a fully black image. This image is then compared with the original image. The comparison is made in such a way that, if any portion of the fully black image is 1, then the corresponding resultant image will take the value from the original image. For the rest of the portion the value remains the same.
+Lesion Segmentation
+                Further by applying the area property of the connected components technique the lesion has been segmented from the lung. The exact location of the lesion in the image and the area affected by the lesion are examined. Finally, the largest area affected by the lesion was found, and their properties like area, location and time of execution were studied.
+RESULTS
+Applying the algorithm to various CT lung images, the results of various stages of the test images are shown in the figures below.
+ 
+Fig: 2 Result of proposed algorithm on different test images
+Area, Location and their time
+                   The area, location and the time for execution for various images are summarized in the table below. The area of the lesion is the collective sum of the pixels in that area; also, the location is the starting pixel information of that lesion. The location, area of both right and the left lung are shown in the Table 1.
+
+
+
+
+
+Test Images	Location	Area (pixels)	Time (s)
+	Right	Left	Right	Left	
+ 	(216,455)		5234		8.51
+ 	(253,362)	(269,137)	1044	599	8.05
+ 	(272,395)	(269,137)	3072	599	7.58
+ 	(253,362)	(269,137)	259	571	7.50
+	(279,324)		238		
+ 		(215,58)		5310	7.69
+		(332,152)		21	
+ 	(251,362)	(262,126)	255	2268	7.81
+	(277,323)		240		
+Table 1: Area, Location and their time
+               
+The proposed algorithm is then compared with various other segmentation algorithms and is summarized as follows. The comparisons are as displayed in the Table 2.
+
+
+Comparison Criteria	Proposed Method	Region Growing Method	Watershed Method
+Segmentation	Automatic	Manual selection of pixels	Automatic, but over segmentation occurs
+Accuracy	Accurate	Change in pixels causes inaccuracy	Segmentation is not accurate enough
+Output	Repaired Output	Further several Mathematical operations required for repaired output 	Further several Mathematical operations required for repaired output
+Lesion Segmentation	Possible	Selection of pixels is difficult, since image may have more than one lesion particles	 It is difficult to segment. Further several Mathematical operations required 
+Speed	Fast	Depends on the pixels selected	Slow
+
+Table 2: Comparison of Proposed Algorithm with Other Algorithms
+
+
+
+CONCLUSION
+	This paper proposed an automatic lung lesion segmentation method from CT image. The proposed method consists of three major steps as thresholding, boundary detection and the repairing lung region. The thresholding operation was performed by the algorithm absolute threshold value binarization. The boundary in the CT images was traced by the boundary detect algorithm and the lung region repair by lung parenchyma repair algorithm. The result shows that the automatic segmentation algorithm removes the background unwanted region and the interference of the trachea / bronchus within the chest. It can segment the lung regions from the chest CT images automatically and accurately. It can be used in the lung lesion automatic extraction of computer-aided diagnosis. Further lesions within the lung have been segmented and their location, area and time for execution have been obtained.  Also compared with various other segmentation algorithms like Region Growing, Watershed method and their results were found to be poor compared to that of the proposed algorithm. Hence, it is efficient and produces a better result compared to other algorithms.
+
+REFERENCES
+[1]. Dehang Wang. Jiawang wang. Liyan Yu. et al. (2005) ‘The study of detection arithmetic for pulmonary nodules’- Shanghai Journal of Biomedical Engineering.
+[2]. Shojaii R, Alirezaie J, Babyn. P. (2005) ‘Automatic lung segmentation in CT images using watershed transform’ - IEEE international conference on image processing.
+[3]. Shengdong Nie, Wen Li, Jianrong Xu, et al, (2006) “The auto-segmentation method for lung parenchyma of CT image”- China Journal of Medical Imaging Technology.
+[4]. Qiang Li, (2007) ‘Recent Progress in Computer-Aided Diagnosis of Lung Noduleson Thin-Section CT’- Comput Med Imaging Graph.
+[5]. Shengwen Guo, Jian Zhang, Qingsi Zeng, (2008) “Automatic Segmentation of Pulmonary Parenchyma in Thoratic CT and Computer-Aided Diagnosis”- Journal of South China University of Technology (Natural Science Edition).
+[6].Helen R. Kamaraj N. Selvi K. Raja Raman V.(2011) ‘Segmentation of pulmonary parenchyma in CT lung images based on 2D Otsu optimized by PSO’- International Conference on Emerging Trends in Electrical and Computer Technology.
+[7]. Pablo G. Cavalcanti, Shahram Shirani, Jacob Scharcanski, Crystal Fong, Jane Meng, Jane Castelli,4 and David Koff, “Lung nodule segmentation in chest computed tomography using a novel background estimation method”, Quant Imaging Med Surg. 2016 Feb; 6(1): 16–24. doi: 10.3978/j.issn.2223-4292.2016.02.06.
+[8]. Ezhil E.NithilaS.S.Kumar, “Segmentation of lung nodule in CT data using active contour model and Fuzzy C-mean clustering”, Alexandria Engineering Journal, Volume 55, Issue 3, September 2016, Pages 2583-2588.
+[9]. X. Zhang, C. Zhang, W. Tang, Z. Wei  “Medical image segmentation using improved FCM”
+Sci. China Inf. Sci., 55 (5) (2012), pp. 1052-1061.
+[10]. Zohreh Azimifar, Mohsen Keshani, Farshad Tajeripour, Reza Boostani, “Lung nodule segmentation and recognition using SVM classifier and active contour modeling: a complete intelligent system”, Comput. Biol. Med., 43 (2013), pp. 287-300.
+[11]. D.S. Elizabeth, H.K. Nehemiah, C.S. Retmin Raj, A. Kannan, “ Computer-aided diagnosis of lung cancer based on analysis of the significant slice of chest computed tomography image”, IET Image Process, 6 (6) (2012), pp. 697-705.
+[12]. Hao Han, Lihong Li, Fangfang Han, Bowen Song, William Moore, Zhengrong Liang, “
+Fast and adaptive detection of pulmonary nodules in thoracic CT images using a hierarchical vector quantization scheme”, IEEE J. Biomed. Health Infor., 19 (2) (2015), pp. 648-659.
+[13]. Muhammad Usman, Byoung-Dai Lee, Shi-Sub Byon, Sung-Hyun Kim, Byung-il Lee & Yeong-Gil Shin, “Volumetric lung nodule segmentation using adaptive ROI with multi-view residual learning”, Scientific Reports volume 10, Article number: 12839 (2020).
+[14]. R. Jenkin Suji, Sarita Singh Bhadouria, Joydip Dhar & W. Wilfred Godfrey , “Optical Flow Methods for Lung Nodule Segmentation on LIDC-IDRI Images”, Journal of Digital Imaging volume 33, pages1306–1324(2020).
+[15]. Bhawana KambleEmail authorSatya Prakash SahuRajesh Doriya, “A Review on Lung and Nodule Segmentation Techniques”, Advances in Data and Information Sciences, 03 January 2020, pp 555-565.
+[16]. Xianling Dong, Shiqi Xu, Yanli Liu, Aihui Wang, M. Iqbal Saripan, Li Li, Xiaolei Zhang & Lijun Lu Cancer Imaging, “Multi-view secondary input collaborative deep learning for lung nodule 3D segmentation”, Cancer Imaging volume 20, Article number: 53 (2020).
+[17]. Salsabil Amin El-Regaily; Mohammed Abdel Megeed Salem; Mohamed Hassan Abdel Aziz; Mohamed Ismail Roushdy, “Lung nodule segmentation and detection in computed tomography”, 2017 Eighth International Conference on Intelligent Computing and Information Systems (ICICIS), 10.1109/INTELCIS.2017.8260029.
+[18]. Jianrong Wu, Tianyi Qian,” A survey of pulmonary nodule detection, segmentation and classification in computed tomography with deep learning techniques”, Journal of medial artificial intelligence, Vol 2 (April 2019).
+[19]. R. S. Valente, P. C. Cortez, E. C. Neto, J. M. Soares, V. H. C. de Albuquerque and J. M. R. S. Tavares, "Automatic 3D pulmonary nodule detection in CT images: A survey", Comput. Methods Programs Biomed., vol. 124, pp. 91-107, February 2016.
+[20]. .H. Mahersia and M. Zaroug, Lung Cancer Detection on CT Scan Images: A Review on the Analysis Techniques, vol. 4, no. 4, pp. 38-45, 2015.
+[21]. A. El-Regaily, M. A. Salem and M. H. Abdel Aziz, "Survey of Computer Aided Detection Systems for Lung Cancer in Computed Tomography", Curr. Med. Imaging Rev., vol. 13, June 2017.
+[22]. M. A. Salem, "Recent Survey on Medical Image Segmentation", Handbook of Research on Machine Learning Innovations and Trends no. 1953 IGI Global, pp. 424-464, 2017.
+
+
+

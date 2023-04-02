@@ -1,0 +1,349 @@
+A New Algorithm of Automatic Lung Parenchyma
+Segmentation Based on CT Images
+Diao Liming
+School of computer science and
+technology
+Shandong economic university
+Ji’nan, China
+E-mail: liming1658@163.com
+Zhang Caiming
+School of computer science and
+technology
+Shandong university
+Ji’nan ,China
+Email:czhang@sdu.edu.cn
+Gao Shanshan
+School of computer science and
+technology
+Shandong economic university
+Ji’nan,China
+E-mail: gsszxy@yahoo.com.cn
+Abstract—We present a new frame of lung parenchyma
+segmentation. Optimal threshold value method and the boundary
+tracking method are used to get rid of the background
+interference and segment the lung region. Then new algorithm is
+used for lung region boundary repairing based on the
+mathematical morphology method. The experimental results
+show the new algorithm can segment lung regions from the chest
+CT images automatically and accurately.
+Keywords-CT image; lung parenchyma; segmentation; aided
+diagnosis
+I. INTRODUCTION
+With the rapid development of CT technology, CT images
+gradually become inspection means of pulmonary diseases in
+clinical. But the amount of data of lung inspection obtained is
+very large. For example, when the slice thickness is less than
+1milimetre, scanning the whole lung, the images obtained will
+reach 500 frames using 16-slice helical CT, while using 64-
+slice helical CT will receive more than 1000 images. With the
+demands of slice thickness and spatial resolution requirements
+continue to increase, the amount of data lung inspection
+obtained will be greater. Such a huge amount of data will bring
+a great challenge to doctor's diagnosis. Therefore, the
+computer-aided diagnosis emerged.
+The key issue of medical image segmentation is to extract
+the image objects or special interest organization, is a
+indispensable means of diseased tissue such as qualitative and
+quantitative analysis, at the same time is the basic of threedimensional
+reconstruction. The 3D reconstruction model
+accuracy is directly affected by the qualities of segmentation.
+As the characteristic difference between medical imaging
+principles and organizing its own, medical image always is
+affected such as noise / field offset effect / partial body effect
+and the impact of organized campaigns, medical imaging will
+be blur and non-uniformity and has other characteristics.
+Therefore, result in the image segmentation difficulties.
+The lung image was composed mainly of lung parenchyma,
+heart, air outside the lung parenchyma, the examining table and
+so on. The lung region examined is the lung parenchyma, the
+part includes in the lung wall. The lower density of overall lung
+parenchyma represents the lower CT value. While the density
+of lung wall around lung parenchyma is higher, it represents
+the higher CT value in the image. Segment the lung
+parenchyma regions efficiently and accurately is the foundation
+of lesions extraction. So that the first step of pulmonary
+diagnosis through computer-aided based on CT images, is
+separating lung region out from the CT images.
+Image segmentation methods include thresholding
+method[1], region growing algorithm[2], based on edge detecting
+methods[3], method for segmenting image based on pattern
+classification[4], watershed segmentation method[5], method
+based on anatomical model[6] and so on. Thresholding method
+is easy and fast for us to carry out, this method is deemed as the
+preprocessing used in conjunction with other methods.
+Disadvantage of thresholding segmentation method is not
+applicable of multi-channel image and characters are not very
+different from the images, for gray-scale images do not exist
+significant differences or has a bigger overlap region of gray
+value images is difficult to get accurate results.. Region
+growing algorithm is widely used in medical image
+segmentation, method first select a seed point, then turn the
+similar pixels around the seed pixel into the seed area. It is
+simple, especially for a small segmentation structure. The
+disadvantage is need selecting the growing seed points
+manually. Based on edge detecting methods is by detecting the
+characteristic values of adjacent pixels to obtain the edges
+between different regions. Edge point decision would be based
+on the detection of point itself and some of its neighboring
+points, includes local differential operator, such as the Roberts
+gradient operator, Sobel gradient operator and Canny operator
+and so on. Based on experiments, it was found that edge
+detection method obtains the edge with gap because is not
+enough image information, so this method cannot form a
+closed curve surrounding objects. Method for segmenting
+image based on pattern classification can achieve great results
+but it requires large amount of training samples and it needs to
+extract image feature classification. The processing result was
+highly dependent on the characteristics, and it could take us a
+lot of time that could not meet the real time requirement of
+clinical diagnosis. Watershed segmentation method requires
+several morphological operations and watershed transformation
+in the lung region segmentation process, speed deficits, and the
+segmentation is not accurate enough. Method based on
+anatomical model is a common pattern of medical image
+processing. The method improved the automation of medical
+976
+978-1-61284-459-6/11/$26.00 ©2011 IEEE
+image segmentation, but required to establish a detailed and
+complete knowledge model with the help of medical experts.
+In order to achieve fully automatic segmentation of thoracic
+CT images, this article put forward a new automatic
+segmentation of lung parenchyma, according to threshold
+processing and mathematical morphology operations.
+II. BASIC IDEAS
+Lung parenchyma images segmentation was based
+primarily on that the CT density of lung parenchyma was
+lower, while the pleura surrounding bone, soft tissue,
+mediastinum and others’ were higher. The automatic
+segmentation process in this article includes global threshold
+binarization, extract the boundary to remove the background of
+the trunk, threshold binarization after get rid of the background,
+lung parenchyma extraction, and lung area repair and so on.
+This article presents a new algorithm based on two
+binarization operations. It reduced the influence effect of lung
+parenchyma to the lung parenchyma boundary, made the
+repairing of lung regions easier. It proposes a new repairing
+algorithm combining with mathematics morphology, which can
+make the repairing of lung parenchyma boundary more
+accurately. The detail of the algorithm is as follows.
+A. Global threshold binarization
+Lower CT values of lung tissue with the surrounding tissue
+higher CT value formed a relatively sharp contrast, so as to
+higher CT value of the surrounding tissue and lower CT value
+of background regions. Therefore, in this article, we use the
+optimal threshold value method [7] for each site CT images to
+automatically generate optimal threshold value. The basic steps
+of the method are as follows:
+(1) Set the initial threshold T= (the maximum value of the
+image brightness + the minimum value of the image
+brightness)/2;
+(2) Using T segment the image to get two sets of pixels B
+(all the pixel values are less than T) and N (all the pixel values
+are greater than T);
+(3) Calculate the average value of B and N separately,
+mean ??b and ??n.
+Fourth: Calculate the new threshold: T= (??b+??n)/2
+Fifth: Repeat the second step to the fourth step until the
+iterative conditions are met (the iterative difference of T is less
+than the scheduled parameters).
+Set Tn is the threshold obtained by calculates, Ts is the
+final threshold we used. For the main purpose of our next step
+is preparing to extract the boundary of trunk, while the pixel
+value of outside region of trunk is lower, so in order to ensure
+it will be separated correctly, we lower the threshold
+appropriately:
+Ts= Tn-??T(a fixed value set in advance)
+B. Extract the boundary to remove the outside region of the
+trunk
+After threshold segmentation, there is still strip external
+interference in the outside region of the human trunk. Most of
+these interferences are caused by the sickbed whose CT values
+are similar to bone. We could use the boundary tracking
+method[8] to obtain the trunk boundary then calculate the
+number of pixels (Nb) outside the trunk and set the value of
+these pixels to 0.
+C. Threshold binarization after remove the background
+interference
+Using trunk boundary and original image obtain the image
+without interference, and then use the optimal threshold value
+method (??.A) again. It’s just let the number of pixels of pixel
+set B minus Nb before calculate the average value in the third
+step.
+D. Lung parenchyma extraction
+First, we find the contour of each region using boundary
+tracking method[7]. Then calculate the area of each contour and
+remove the smaller area according the condition. At last we can
+obtain the two largest areas which are the two contours of the
+pulmo. Set 1 is the value of inside contour and set 0 is the value
+of outside contour. Operation with the original image then we
+can get the image of lung parenchyma.
+E. Lung region repair
+Extracting the lung area is intended to find the tumor area
+in the lung area. While some tumor areas were adhere with
+tissue and the tumor area would not be included in the lung
+area after the binarization, we can’t find the tumor area in the
+extracted lung area. As a result, it requires repair the gap of the
+lung area, which is put the tumor area in the lung area. The
+falling- ball method[9] is the repair algorithm we commonly
+use, but the results it gets are likely affected by the radius of
+the circle. In this article, we use the mathematical morphology
+algorithm[10] to segment this region.
+Set f is the input image and b is the structure element then
+we define the expansion of b to f is:
+(f ?? b)(s) =max{f(s - x) + b(x) | (s - x)??D f, x ??Db}
+Define the corrosion of b to f is:
+(f ?? b)(s) =min{f(s + x) - b(x) | (s + x)??D f, x ??Db}
+Df and Db were the domain of f and b, s and x were space
+vector of integer Z2.
+Expansion can expand the image morphology and corrosion
+can reduce the image morphology. The opening and closing
+operations of mathematical morphology were compounded by
+expansion and corrosion operations.
+Define the opening of b to f is:
+f ??b=(f ?? b) ?? b
+Define the opening of b to f is:
+f ??b=(f ?? b) ?? b
+Project supported by the National Science Foundation (60933008)
+Shandong Science Foundation (ZR2010FP031)
+977
+Opening operation can remove the convex domains which
+were not corresponding with the structural elements of the
+image. Closing operation can fill the concave domains which
+were not corresponding with the structural elements of the
+image, while retaining those who match the structural
+elements. Through a combination using of the opening and
+closing operations, we can fill the nodule area of the lung
+parenchyma boundary to achieve the purpose of repairing the
+lung parenchyma boundary.
+When the gap of the contour boundary is minor, it can fill
+the gap of the contour boundary after one corrosion and
+expansion operation. But as shown, when the gap of the
+contour boundary is larger (figure 1), the fewer times of
+corrosion and expansion operations fail to achieve the purpose
+of repairing the lung parenchyma boundary. For the
+characteristics of that expansion can expand the image
+morphology and corrosion can reduce the image morphology,
+this article proposed a new boundary repair algorithm.
+The steps of the algorithms are as follows:
+Step 1: Using the fewer and more times of corrosion and
+expansion operations respectively to the original image. We
+can only use the fewer times of corrosion and expansion
+operations once, while the times of the more we can obtain by
+experiments.
+Step 2: Calculate the area A1, the circumference Z1 after
+the fewer times of corrosion and expansion operations and
+calculate the area A2, the circumference Z2 after the more
+times of corrosion and expansion operations respectively.
+Step 3: If Z1>Z2 and A1<A2, get the figure through the
+more times of corrosion and expansion operations (figure 1). If
+Z1<Z2 and A1<A2, get the figure through the fewer times of
+conclusions and expansion operations (figure 2)
+Figure 1. Take the more times image.
+Figure 2. Take the fewer times image.
+III. RESULTS OF THE EXPERIMENT
+Each step of the algorithm in this article is automatically,
+this reduces the times of man-machine interaction. The result
+after these steps is shown in Figure 3(f).
+Figure 3. Flow chart of lung parenchyma extraction.
+In this article, the data sets we used in experiment are the
+clinical CT data sets of 26 patients’ lungs. Data of each layer is
+512 ×512 pixels and in the data sets there are 30 to 62 CT
+layers. We get 45 CT layers from each patient in average. The
+time of processing an image (512??512??50 CT data sets) is
+less than 0.5 second (Intel(R) Core(TM) 2 Duo CPU E6500 @
+2.33GHz, 2.00GB memory). To 146 stochastic sample pictures,
+we can get 139 correctly by using this algorithm. The accurate
+rate was 95. 2%.
+IV. CONCLUSIONS
+This article proposes a new automatic segmentation
+algorithm of lung regions. The algorithm is based on the
+characteristic that the CT values of lung tissue have significant
+difference with the other tissue within the human body. It
+obtains the optimal threshold value by using the iterative
+methods which have reduced the effect that threshold selection
+to the split. In each CT slice, we remove the background
+interference and obtain the lung region boundary by using the
+boundary tracking algorithm. Finally repair the lung region
+boundary by using the mathematical morphology method. The
+experiment shows that the automatic segmentation algorithm
+can get rid of the background interference and the interference
+of the trachea / bronchus within the chest. It can segment the
+lung regions from the chest CT images automatically and
+accurately. It can be used in the lung area automatic extraction
+of computer-aided diagnosis.
+Original
+image
+More times
+image
+Fewer times
+image
+Original
+image
+More times
+image
+Fewer times
+image
+??
+??
+??
+(a)Original
+image
+(c)Trunk
+image
+(b)First threshold
+image
+(d)Second
+threshold
+image
+(e)Lung
+parenchyma
+image
+(f)Repaired
+lung
+parenchyma
+image
+978
+ACKNOWLEDGMENT
+From beginning to the end of this article, I obtained careful
+guidance from my instructor Professor Zhang Caiming and
+teacher Gao Shanshan. Thank Mu Dianwen and other brothers
+and sisters who gave me a lot of encouragement and help in the
+research process too.
+REFERENCES
+[1] Hu Xue-gang??Sun Hui-fen??Wang Shun. A New Algorithm of Image
+Segmentation Based on Graph Theory[J]. Journal of Sichuan
+University(Engineering science edition) ??2010??42??1????138-142(In
+Chinese).
+[2] Yang Jia,Wu Qi-yao, Tian Jie, et al The implementation and evaluation
+of several CT image segmentation algo2rithms [J].Journal of Beijing
+Institute of Technology,2000, 20 (6) : 720-724.
+[3] Michael H. F. Wilkinson. Optimizing Edge Detectors for Robust
+AutomaticThreshold Selection : Coping with Edge Curvature and Noise.
+Graphical Models and Image Processing 1998 ,60 :385??401
+[4] Zhang D?? Valentino DJ??Segmentation of anatomical structures in XRay
+computed tomography images using artifical neural networks ??C
+?? . in: Milan Sonka, J Michael Fitzpatrick, eds. Medical imaging
+2002:Image processing, proc. SPIE 4684. San Diego, University of
+Pennsylvania MedicalCtr ,2002:1640-1652.
+[5] Shojaii R, Alirezaie J, Babyn. P. Automatic lung segmentation in CT
+images using watershed transform ?? C ?? . In: Gianni Vernazza,
+eds.IEEE international conference on image processing . Genoa ,Italy,
+university of Genova, 2005:??-1270-3.
+[6] YANG Xiaoqiang, LI Bin,WEI shengmin. Method for segmenting
+medical image based on anatomical model ??J??. Space Medicine &
+Medical Engineering, 2005, 18(1):62-65.
+[7] Hu S, Hoffman EA, Reinhardt JM. Automatic segmentation of accurate
+quantitation of volumetric x ray ct images ??J??.IEEE Transactions on
+medical imaging, 2001,20(6): 490-498.
+[8] ZhangYuan peng, DongHai etc. Computer image processing based
+technology [M]. Cambridge university press, 1996:129-137(In Chinese).
+[9] M. Young, The Technical Writer's Handbook. Mill Valley, CA:
+University Science, 1989 Armato Samuel G, Maryellen L . Giger,
+Catberine J.Moran, et al. Automated detection of pulmonary nodules in
+helical computed tomography images of the thorax ??C??. in: Kenneth
+m. Hanson, eds. medical imaging 1998: image processing , proc. SPIE
+3338. San Diego, SPIE society of photo optical instrumentation Engi,
+1998: 916-919..
+[10] Armato S G ??, Giger M L. Three-dimensional approach to lung nodule
+detection in helical CT[J] . Proc SPIE , 2000 ,3661 (1) :553 - 559.
+979
